@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Update";
+}
+
+@model Position
+
+
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Update Position</h4>
+            <p class="card-description">
+
+            </p>
+            <form method="post" asp-controller="Positions" asp-action="Update" class="forms-sample">
+                <div class="form-group">
+                    <label for="exampleInputName1">Name</label>
+                    <input asp-for="Name" class="form-control" id="exampleInputName1" placeholder="Name">
+                    <span style="color:red" asp-validation-for="Name"></span>
+                </div>
+
+                <button type="submit" class="btn btn-warning me-2">Update</button>
+                <a asp-action="Index" class="btn btn-light">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
