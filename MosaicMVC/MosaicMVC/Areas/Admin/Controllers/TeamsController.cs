@@ -1,14 +1,14 @@
-﻿using Azure;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MosaicMVC.Areas.Admin.ViewModels;
 using MosaicMVC.Contexts;
 using MosaicMVC.Models;
-using System.Threading.Tasks;
 
 namespace MosaicMVC.Areas.Admin.Controllers;
 
 [Area("Admin")]
+[Authorize(Roles = "Admin,Moderator")]
 public class TeamsController : Controller
 {
     private readonly AppDbContext _context;
@@ -38,7 +38,6 @@ public class TeamsController : Controller
     [HttpPost]
     public async Task<IActionResult> Create(TeamCreateVM teamCreateVM)
     {
-
         if (!ModelState.IsValid)
         {
             var positions = await _context.Positions.ToListAsync();
@@ -121,6 +120,14 @@ public class TeamsController : Controller
         team.PositionId = teamUpdateVM.PositionId;
         if(teamUpdateVM.Img is not null)
         {
+
+            #region DeleteOldImage
+            string oldImagePath = Path.Combine(_env.WebRootPath, "admin", "assets", "images", "uploads");
+
+            if (System.IO.File.Exists(Path.Combine(oldImagePath, team.ImagePath)))
+                System.IO.File.Delete(Path.Combine(oldImagePath, team.ImagePath));
+            #endregion
+
             #region AddImage
             string path = Path.Combine(_env.WebRootPath, "admin", "assets", "images", "uploads");
             if (!Directory.Exists(path))
@@ -136,6 +143,25 @@ public class TeamsController : Controller
 
          _context.Teams.Update(team);
         await _context.SaveChangesAsync();
+
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Delete(int id)
+    {
+        Team? team = await _context.Teams.FindAsync(id);
+        if (team == null) return NotFound();
+        _context.Teams.Remove(team);
+        await _context.SaveChangesAsync();
+
+
+        #region DeleteOldImage
+        string oldImagePath = Path.Combine(_env.WebRootPath, "admin", "assets", "images", "uploads");
+
+        if (System.IO.File.Exists(Path.Combine(oldImagePath, team.ImagePath)))
+            System.IO.File.Delete(Path.Combine(oldImagePath, team.ImagePath));
+        #endregion
 
         return RedirectToAction(nameof(Index));
     }

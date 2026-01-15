@@ -11,10 +11,3 @@ public class Team:BaseEntity
     public int PositionId { get; set; }
     public Position Position { get; set; } = null!;
 }
-
-
-public class Position:BaseEntity
-{
-    public string Name { get; set; } = null!;
-    public List<Team> Teams { get; set; } = new();
-}

@@ -12,7 +12,7 @@ namespace MosaicMVC.Controllers
         {
             _context = context;
         }
-
+        
         public async Task<IActionResult> Index()
         {
             var teams = await _context.Teams.Include(t => t.Position).ToListAsync();

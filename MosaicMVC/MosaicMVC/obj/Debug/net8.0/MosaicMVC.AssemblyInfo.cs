@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MosaicMVC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ca93d4f546f89a5c358c54025adc9371a0062d03")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+547d478a332f0eea71ed3eee333ba750577de379")]
 [assembly: System.Reflection.AssemblyProductAttribute("MosaicMVC")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MosaicMVC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

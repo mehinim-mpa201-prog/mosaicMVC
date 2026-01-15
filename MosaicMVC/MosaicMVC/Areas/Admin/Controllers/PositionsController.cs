@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MosaicMVC.Areas.Admin.ViewModels;
 using MosaicMVC.Contexts;
 using MosaicMVC.Models;
+using System.Threading.Tasks;
 
 namespace MosaicMVC.Areas.Admin.Controllers;
 
 [Area("Admin")]
+[Authorize(Roles = "Admin,Moderator")]
 public class PositionsController : Controller
 {
     private readonly AppDbContext _context;
@@ -74,12 +77,12 @@ public class PositionsController : Controller
     }
 
     [HttpGet]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
-        Position? position = _context.Positions.Find(id);
+        Position? position = await _context.Positions.FindAsync(id);
         if (position == null) return NotFound();
         _context.Positions.Remove(position);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 }

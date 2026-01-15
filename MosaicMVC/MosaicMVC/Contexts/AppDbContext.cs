@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using MosaicMVC.Models;
 
 namespace MosaicMVC.Contexts;
 
-public class AppDbContext:DbContext
+public class AppDbContext:IdentityDbContext<AppUser>
 {
     public DbSet<Team> Teams { get; set; }
     public DbSet<Position> Positions { get; set; }

@@ -37,19 +37,47 @@
 
             <div class="collapse navbar-collapse" id="ftco-nav">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
+                    <li class="nav-item active"><a asp-controller="Home" asp-action="Index" class="nav-link">Home</a></li>
                     <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
                     <li class="nav-item"><a href="project.html" class="nav-link">Project</a></li>
                     <li class="nav-item"><a href="services.html" class="nav-link">Services</a></li>
                     <li class="nav-item"><a asp-controller="Teams" asp-action="Index" class="nav-link">Team</a></li>
                     <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
                     <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+
+                        <li>
+                            @User.Identity.Name
+                        </li>
+                        @if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
+                        {
+                            <li>
+                                <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin Panel</a>
+                            </li>
+                        }
+
+                        <li>
+                            <a asp-controller="Account" asp-action="Logout">Logout </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a asp-controller="Account" asp-action="Login">Login</a>
+                        </li>
+                        <li>
+                            <a asp-controller="Account" asp-action="Register">Register</a>
+                        </li>
+                    }
+
+
                 </ul>
             </div>
         </div>
     </nav>
     <!-- END nav -->
-
     @RenderBody()
 
     <footer class="ftco-footer ftco-bg-dark ftco-section">
@@ -70,7 +98,7 @@
                     <div class="ftco-footer-widget mb-4 ml-md-4">
                         <h2 class="ftco-heading-2">Links</h2>
                         <ul class="list-unstyled">
-                            <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Home</a></li>
+                            <li><a asp-controller="Home" asp-action="Index"><span class="icon-long-arrow-right mr-2"></span>Home</a></li>
                             <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>About</a></li>
                             <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Services</a></li>
                             <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Projects</a></li>
